@@ -1,0 +1,141 @@
+<? echo the_permalink( ); ?>
+<? echo wp_get_attachment_image( 77 , 'full', "", array( "class" => "" )); ?>
+
+<? $carousel_item_img = get_sub_field('carousel_item_img'); ?>
+<?php echo $carousel_item_img['url']; ?>
+<?php echo $carousel_item_img['alt']; ?>
+
+
+Обычные поля
+<? the_field('footer_link_1'); ?>
+
+Группа
+
+<?php
+	$field=get_field('about_us_list_item_01');
+		if( $field ):  ?>
+
+            <? echo $field['about_us_list_item_01_image']?>
+            <img src="<?echo get_template_directory_uri()?>/assets/img/woods_item_01.png" alt="">
+
+            <div class="title"><? echo $field['about_us_list_item_01_title']?></div>
+
+            <div class="description">
+             <? echo $field['about_us_list_item_01_description']?>
+            </div>
+
+		  <?
+	endif;
+?>
+
+<?php
+
+Повторитель
+<?php
+if( have_rows('callback') ):
+		while ( have_rows('callback') ) : the_row();?>
+			<div class="item_fb">
+				<img src="<?the_sub_field('call_img');?>" alt="altimg">
+			</div>
+	   <? endwhile;
+	else :
+endif;
+?>
+
+
+Гибкое содержание
+<?php	
+	if( have_rows('main_page_galary') ):
+		while ( have_rows(menu_number_list) ) : the_row();
+			if( get_row_layout() == 'item_list' ):
+			  ?> 
+				<div class="item_pretitle"><? the_sub_field('pretitle'); ?></div>
+			  <?
+			endif;
+		endwhile;
+	else :
+	endif;
+?>	
+	
+
+//do shortcode
+<?php echo do_shortcode('[elementor-template id="416"]'); ?>
+//search form	
+<?php get_search_form(); ?>
+
+
+//wpdb out file
+<?php
+
+global $wpdb;
+
+if(!isset($wpdb))
+{
+    require_once('../../../wp-config.php');
+    require_once('../../../wp-includes/wp-db.php');
+}
+
+$wpdb->insert(
+    'wp_postmeta', // указываем таблицу
+    array(
+        'post_id' => 666,
+        'meta_key' => 'text_ajax 1',
+        'meta_value' => 'ajax value 4'
+    ),
+    array('%d', '%s', '%s')
+);
+
+////Вывод по категориям
+<?
+$query = new WP_Query( array( 'category_name' => 'best_no_deposit' ) );
+$counter = 0;
+while ( $query->have_posts() and $counter<2 ) {
+  $query->the_post();
+  ?>
+<div class="bonus_vertical_item">
+	<? echo wp_get_attachment_image( 252 , 'full', "", array( "class" => "bonus_vertical_item_bg" )); ?>
+  <div class="logo_wrapper black_c" style="background: <?echo get_field('logo_background_color')?>">
+	  <? $image = get_field('review_games_casino_logo') ?>
+	<img src="<?echo $image['url']?>" alt="<?echo $image['alt']?>">
+  </div>
+
+  <div class="free_spins_counter_wrapper">
+	<div class="counter">
+		<? echo get_field('approv_free_spins')?>
+	</div>
+	<div class="title">
+	  FREE<br>
+	  SPINS
+	</div>
+  </div>
+  <div class="counter_desc">
+	NO DEPOSIT BONUS
+  </div>
+  <a href="<? the_field('external_link'); ?>" target="_blank" class="button_green_md">
+		  <span class="for_hover"></span>
+	<? echo wp_get_attachment_image( 255 , 'full', "", array( "class" => "button_green_md_img" )); ?>
+	<span class="button_yellow_md_span">CLAIM</span>
+  </a>
+</div><!-- end bonus_vertical_item -->
+
+  <?
+
+  $counter++;
+}
+wp_reset_postdata();
+?>
+
+// in functions.php
+remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
+remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed
+remove_action( 'wp_head', 'rsd_link' ); // Display the link to the Really Simple Discovery service endpoint, EditURI link
+remove_action( 'wp_head', 'wlwmanifest_link' ); // Display the link to the Windows Live Writer manifest file.
+remove_action( 'wp_head', 'index_rel_link' ); // index link
+remove_action( 'wp_head', 'parent_post_rel_link', 10, 0 ); // prev link
+remove_action( 'wp_head', 'start_post_rel_link', 10, 0 ); // start link
+remove_action( 'wp_head', 'adjacent_posts_rel_link', 10, 0 ); // Display relational links for the posts adjacent to the current post.
+remove_action( 'wp_head', 'wp_generator' ); // Display the XHTML generator that is generated on the wp_head hook, WP version
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
+remove_action( 'admin_print_styles', 'print_emoji_styles' );

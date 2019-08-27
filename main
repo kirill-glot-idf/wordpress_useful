@@ -1,41 +1,77 @@
 <? echo the_permalink( ); ?>
 <? echo wp_get_attachment_image( 77 , 'full', "", array( "class" => "" )); ?>
 
-<? $carousel_item_img = get_sub_field('carousel_item_img'); ?>
-<?php echo $carousel_item_img['url']; ?>
-<?php echo $carousel_item_img['alt']; ?>
+<? $casino_main_logo = get_field('casino_main_logo'); ?>
+<?php echo $casino_main_logo['url']; ?>
+<?php echo $casino_main_logo['alt']; ?>
 
 
 Обычные поля
-<? the_field('footer_link_1'); ?>
+<? the_field('external_link'); ?>
 
 Группа
+//ИЗО	БРАЖЕНИЕ
+<a href="<? echo $field['four_screen_4']['url']?>" data-fancybox>
+  <img src="<? echo $field['four_screen_4']['url']?>" alt="<? echo $field['four_screen_4']['url']?>" />
+</a>
+
 
 <?php
-	$field=get_field('about_us_list_item_01');
+	$field=get_field('q_and_a');
 		if( $field ):  ?>
-
-            <? echo $field['about_us_list_item_01_image']?>
-            <img src="<?echo get_template_directory_uri()?>/assets/img/woods_item_01.png" alt="">
-
-            <div class="title"><? echo $field['about_us_list_item_01_title']?></div>
-
-            <div class="description">
-             <? echo $field['about_us_list_item_01_description']?>
-            </div>
+		
+		<div class="answer_wrapper">
+          <div class="title">
+            <div class="number">1</div>
+            <h3><? echo $field['title_1']?></h3>
+          </div>
+          <div class="content">
+            <? echo $field['answer_1']?>
+          </div>
+        </div>
 
 		  <?
 	endif;
 ?>
 
-<?php
 
+
+
+
+
+
+
+
+
+		while ( have_rows('right_carousel') ) : the_row();?>
+			<div class="review_carousel_item">
+				<? $mini_logo = get_sub_field('mini_logo'); ?>
+				<img src="<?php echo $mini_logo['url']; ?>" alt="<?php echo $mini_logo['alt']; ?>" class="logo_review_carousel">
+				<? $main_image = get_sub_field('main_image'); ?>
+				<img src="<?php echo $main_image['url']; ?>" alt="<?php echo $main_image['alt']; ?>" class="review_carousel_main_img">
+			</div>
+	   <? endwhile;
+
+
+
+
+<? the_field('are_they_polite'); ?>
+<? the_field('do_they_give_bonuses_in_chat'); ?>
+<? the_field('are_they_fast'); ?>
+<? the_field('are_they_good_in_their_job'); ?>
+<? the_field('is_their_english_adequate'); ?>
+<? the_field('does_the_chat_start_quickly'); ?>
 Повторитель
+
+
 <?php
-if( have_rows('callback') ):
-		while ( have_rows('callback') ) : the_row();?>
-			<div class="item_fb">
-				<img src="<?the_sub_field('call_img');?>" alt="altimg">
+if( have_rows('right_carousel') ):
+		while ( have_rows('right_carousel') ) : the_row();?>
+			<div class="review_carousel_item">
+				<? $mini_logo = get_sub_field('mini_logo'); ?>
+				<img src="<?php echo $mini_logo['url']; ?>" alt="<?php echo $mini_logo['alt']; ?>" class="logo_review_carousel">
+				<? $main_image = get_sub_field('main_image'); ?>
+				<img src="<?php echo $main_image['url']; ?>" alt="<?php echo $main_image['alt']; ?>" class="review_carousel_main_img">
 			</div>
 	   <? endwhile;
 	else :
@@ -139,3 +175,79 @@ remove_action('wp_head', 'print_emoji_detection_script', 7);
 remove_action('wp_print_styles', 'print_emoji_styles');
 remove_action( 'admin_print_scripts', 'print_emoji_detection_script' );
 remove_action( 'admin_print_styles', 'print_emoji_styles' );
+
+git init
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/KirylHlot/wordpress_starter_pack.git
+git push --set-upstream origin master
+
+
+<a href="" data-fancybox="images">
+	
+</a>
+
+
+
+		  echo '<pre>';
+		  print_r($reclam);
+		  echo '</pre>';
+		  $reclam -> query_vars['offset'] = $offset_counter;
+		  echo $reclam -> query_vars['offset'];
+
+
+	    <?
+	    $query = new WP_Query( array( 'category_name' => 'review_top' ) );
+	    $counter = 0;
+	    $page_id = get_the_ID();
+	    while ( $query->have_posts() and $counter<2 ) {
+	    $query->the_post();
+	    $this_id = get_the_ID();
+	    if($page_id != $this_id){
+	    ?>
+        <div class="review_bonus_item" style="background: <? the_field('logo_background_color'); ?>">
+	        <? $casino_logo = get_field('casino_main_logo'); ?>
+          <img src="<?php echo $casino_logo['url']; ?>" alt="<?php echo $casino_logo['alt']; ?>" class="logo">
+          <div class="content">
+	          <? the_field('bonus_text_2'); ?>
+          </div>
+          <a href="<? the_field('external_link'); ?>" target="_blank" class="button">
+            Get your bonus NOW
+          </a>
+        </div>
+
+      <?$counter++;
+        }
+      }
+      wp_reset_postdata();
+      ?>
+	  
+	  
+	  
+	  
+	  
+	  
+
+
+
+	    <?
+	    $query = new WP_Query( array( 'category_name' => 'review_left_bottom_banners' ) );
+	    $counter = 0;
+	    while ( $query->have_posts() and $counter<10 ) {
+	    $query->the_post();
+	    ?>
+
+      <div class="review_bonus_item" style="background: <? the_field('logo_background_color'); ?>">
+	      <? $casino_logo = get_field('casino_main_logo'); ?>
+        <img src="<?php echo $casino_logo['url']; ?>" alt="<?php echo $casino_logo['alt']; ?>" class="logo">
+	        <? the_field('bonus_text_2'); ?>
+        </div>
+        <a href="<? the_field('external_link'); ?>" target="_blank" class="button">
+          Get your bonus NOW
+        </a>
+      </div>
+
+      <?$counter++;
+      }
+      wp_reset_postdata();
+      ?>

@@ -230,24 +230,48 @@ git push --set-upstream origin master
 
 
 
-	    <?
-	    $query = new WP_Query( array( 'category_name' => 'review_left_bottom_banners' ) );
-	    $counter = 0;
-	    while ( $query->have_posts() and $counter<10 ) {
-	    $query->the_post();
-	    ?>
+<?
+$query = new WP_Query( array( 'category_name' => 'review_left_bottom_banners' ) );
+$counter = 0;
+while ( $query->have_posts() and $counter<10 ) {
+$query->the_post();
+?>
 
-      <div class="review_bonus_item" style="background: <? the_field('logo_background_color'); ?>">
-	      <? $casino_logo = get_field('casino_main_logo'); ?>
-        <img src="<?php echo $casino_logo['url']; ?>" alt="<?php echo $casino_logo['alt']; ?>" class="logo">
-	        <? the_field('bonus_text_2'); ?>
-        </div>
-        <a href="<? the_field('external_link'); ?>" target="_blank" class="button">
-          Get your bonus NOW
-        </a>
-      </div>
+<div class="review_bonus_item" style="background: <? the_field('logo_background_color'); ?>">
+      <? $casino_logo = get_field('casino_main_logo'); ?>
+<img src="<?php echo $casino_logo['url']; ?>" alt="<?php echo $casino_logo['alt']; ?>" class="logo">
+	<? the_field('bonus_text_2'); ?>
+</div>
+<a href="<? the_field('external_link'); ?>" target="_blank" class="button">
+  Get your bonus NOW
+</a>
+</div>
 
-      <?$counter++;
-      }
-      wp_reset_postdata();
-      ?>
+<?$counter++;
+}
+wp_reset_postdata();
+?>
+      
+      
+//пагинация
+//WP-PageNavi
+<?php
+  $current_page = (get_query_var('paged')) ? get_query_var('paged') : 1;
+  $params = array(
+    'posts_per_page' => 1, // количество постов на странице
+    'category_name'       => 'video', // тип постов
+    'paged'           => $current_page // текущая страница
+  );
+  query_posts($params);
+
+  $wp_query->is_archive = true;
+  $wp_query->is_home = false;
+
+  while(have_posts()): the_post();
+  ?>
+	//код здесь
+  <?
+  endwhile;?>
+  //пагинация здесь
+<?wp_pagenavi();?>
+

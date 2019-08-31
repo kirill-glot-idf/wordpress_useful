@@ -275,3 +275,6 @@ wp_reset_postdata();
   //пагинация здесь
 <?wp_pagenavi();?>
 
+// Обрезка контента с html тегами
+$more = ' <a href="'. get_permalink( get_the_ID() ) . '" style="font-weight: bold; color: #ff5253;">Читать полностью</a>';
+echo force_balance_tags( html_entity_decode( wp_trim_words( htmlentities( get_the_content() ), 200, $more ) ) );

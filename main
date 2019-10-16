@@ -325,3 +325,52 @@ echo force_balance_tags( html_entity_decode( wp_trim_words( htmlentities( get_th
     $template_name = get_post_meta( $page_id, '_wp_page_template', true );
   ?>
 </head>
+
+
+	//сортировка по убыванию
+	      <?
+	      $query = new WP_Query(array('category_name' => 'casinos'));
+	      $casino_sort_array = array();
+
+	      while ( $query->have_posts()) {
+		      $query->the_post();
+		      $casino_rate = get_field('casino_rate');
+		      $casino_id = get_the_ID();
+		      $casino_sort_array += array( $casino_id => $casino_rate);
+	      }
+
+	      wp_reset_postdata();
+	      arsort( $casino_sort_array );
+
+        $counter = 0;
+	      foreach ($casino_sort_array as $key => $val) {
+		      if ( $counter < 3 ) {
+			      ?>
+            <a href="<? the_permalink( $key ) ?>" class="footer_casino_item">
+              <div class="logo_wrapper" style="background: <? the_field( 'logo_background', $key ); ?>">
+					      <? $casino_logo = get_field( 'casino_logo', $key ); ?>
+                <img src="<? echo $casino_logo['url']; ?>" alt="<? echo $casino_logo['alt']; ?>">
+              </div>
+              <div class="content_wrapper">
+                <div class="inner_title"><? echo get_the_title($key) ?></div>
+                <div class="rate_wrapper">
+						      <? $casino_rate = get_field( 'casino_rate', $key );
+						      $i              = 0;
+						      while ( $i < 5 ) {
+							      if ( $i < $casino_rate ) {
+								      echo wp_get_attachment_image( 52, 'full', "", array( "class" => "star_colored" ) );
+							      } else {
+								      echo wp_get_attachment_image( 53, 'full', "", array( "class" => "star_grey" ) );
+							      }
+							      $i ++;
+						      }
+						      ?>
+                </div>
+              </div>
+            </a>
+
+			      <?
+			      $counter ++;
+		      }
+	      }
+    ?>

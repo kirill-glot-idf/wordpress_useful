@@ -1,70 +1,49 @@
+//Обычные поля
 <? echo the_permalink( ); ?>
 <? echo wp_get_attachment_image( 77 , 'full', "", array( "class" => "" )); ?>
+
+<? the_field('external_link'); ?>
 
 <? $casino_main_logo = get_field('casino_main_logo'); ?>
 <?php echo $casino_main_logo['url']; ?>
 <?php echo $casino_main_logo['alt']; ?>
 
 
-Обычные поля
-<? the_field('external_link'); ?>
+//фичи WP
+//do shortcode
+<?php echo do_shortcode('[elementor-template id="416"]'); ?>
 
-Группа
-//ИЗО	БРАЖЕНИЕ
-<a href="<? echo $field['four_screen_4']['url']?>" data-fancybox>
-  <img src="<? echo $field['four_screen_4']['url']?>" alt="<? echo $field['four_screen_4']['url']?>" />
-</a>
+//search form	
+<?php get_search_form(); ?>
+
+// Обрезка контента с html тегами
+$more = ' <a href="'. get_permalink( get_the_ID() ) . '" style="font-weight: bold; color: #ff5253;">Читать полностью</a>';
+echo force_balance_tags( html_entity_decode( wp_trim_words( htmlentities( get_the_content() ), 200, $more ) ) );
+
+//ЗАМЕНА СИМВОЛОВ
+$title = str_replace( ' ', '_', get_the_title($post_id) );
 
 
-<?php
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//ACF поля///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Группа
+<?
 	$field=get_field('q_and_a');
-		if( $field ):  ?>
-		
-		<div class="answer_wrapper">
-          <div class="title">
-            <div class="number">1</div>
-            <h3><? echo $field['title_1']?></h3>
-          </div>
-          <div class="content">
-            <? echo $field['answer_1']?>
-          </div>
-        </div>
-
-		  <?
+	if( $field ):  ?>
+		<a href="<? echo $field['four_screen_4']['url']?>" data-fancybox>
+			<img src="<? echo $field['four_screen_4']['url']?>" alt="<? echo $field['four_screen_4']['url']?>" />
+		</a>
+		<div class="content">
+			<? echo $field['answer_1']?>
+		</div>
+		<?
 	endif;
 ?>
 
-
-
-
-
-
-
-
-
-
-		while ( have_rows('right_carousel') ) : the_row();?>
-			<div class="review_carousel_item">
-				<? $mini_logo = get_sub_field('mini_logo'); ?>
-				<img src="<?php echo $mini_logo['url']; ?>" alt="<?php echo $mini_logo['alt']; ?>" class="logo_review_carousel">
-				<? $main_image = get_sub_field('main_image'); ?>
-				<img src="<?php echo $main_image['url']; ?>" alt="<?php echo $main_image['alt']; ?>" class="review_carousel_main_img">
-			</div>
-	   <? endwhile;
-
-
-
-
-<? the_field('are_they_polite'); ?>
-<? the_field('do_they_give_bonuses_in_chat'); ?>
-<? the_field('are_they_fast'); ?>
-<? the_field('are_they_good_in_their_job'); ?>
-<? the_field('is_their_english_adequate'); ?>
-<? the_field('does_the_chat_start_quickly'); ?>
-Повторитель
-
-
-<?php
+//Повторитель
+<?
 if( have_rows('right_carousel') ):
 		while ( have_rows('right_carousel') ) : the_row();?>
 			<div class="review_carousel_item">
@@ -78,9 +57,8 @@ if( have_rows('right_carousel') ):
 endif;
 ?>
 
-
-Гибкое содержание
-<?php	
+//Гибкое содержание
+<?	
 	if( have_rows('main_page_galary') ):
 		while ( have_rows(menu_number_list) ) : the_row();
 			if( get_row_layout() == 'item_list' ):
@@ -92,25 +70,54 @@ endif;
 	else :
 	endif;
 ?>	
-	
 
-//do shortcode
-<?php echo do_shortcode('[elementor-template id="416"]'); ?>
-//search form	
-<?php get_search_form(); ?>
+//CHECKBOXES with foreach
+<?
+	$choised_country = 'country';
+	$avalible_country_mass = get_field('avalible_country');
+
+	if(isset($avalible_country_mass) and !empty($avalible_country_mass)){
+		foreach ($avalible_country_mass as $k => $j){
+			if($j === $choised_country){
+				$avalible = true;
+			}
+		}
+	}
+?>
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-//wpdb out file
-<?php
 
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Куски кода///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+////Вывод по категориям
+<?
+	$query = new WP_Query( array( 'category_name' => 'casinos' ) );
+	$counter = 0;
+	while ( $query->have_posts() and $counter < 5 ) {
+		$query->the_post();
+			?>
+				//content
+			<?
+			$counter ++;
+		wp_reset_postdata();
+	};
+?>
+
+//WPDB out file
+<?
 global $wpdb;
-
 if(!isset($wpdb))
 {
     require_once('../../../wp-config.php');
     require_once('../../../wp-includes/wp-db.php');
 }
-
 $wpdb->insert(
     'wp_postmeta', // указываем таблицу
     array(
@@ -121,45 +128,43 @@ $wpdb->insert(
     array('%d', '%s', '%s')
 );
 
-////Вывод по категориям
-<?
-$query = new WP_Query( array( 'category_name' => 'best_no_deposit' ) );
-$counter = 0;
-while ( $query->have_posts() and $counter<2 ) {
-  $query->the_post();
+//фэнси бокс
+<a href="<? echo $field['four_screen_4']['url']?>" data-fancybox>
+  <img src="<? echo $field['four_screen_4']['url']?>" alt="<? echo $field['four_screen_4']['url']?>" />
+</a>
+
+//пагинация
+//WP-PageNavi
+<?php
+  $current_page = (get_query_var('paged')) ? get_query_var('paged') : 1;
+  $params = array(
+    'posts_per_page' => 1, // количество постов на странице
+    'category_name'       => 'video', // тип постов
+    'paged'           => $current_page // текущая страница
+  );
+  query_posts($params);
+
+  $wp_query->is_archive = true;
+  $wp_query->is_home = false;
+
+  while(have_posts()): the_post();
   ?>
-<div class="bonus_vertical_item">
-	<? echo wp_get_attachment_image( 252 , 'full', "", array( "class" => "bonus_vertical_item_bg" )); ?>
-  <div class="logo_wrapper black_c" style="background: <?echo get_field('logo_background_color')?>">
-	  <? $image = get_field('review_games_casino_logo') ?>
-	<img src="<?echo $image['url']?>" alt="<?echo $image['alt']?>">
-  </div>
-
-  <div class="free_spins_counter_wrapper">
-	<div class="counter">
-		<? echo get_field('approv_free_spins')?>
-	</div>
-	<div class="title">
-	  FREE<br>
-	  SPINS
-	</div>
-  </div>
-  <div class="counter_desc">
-	NO DEPOSIT BONUS
-  </div>
-  <a href="<? the_field('external_link'); ?>" target="_blank" class="button_green_md">
-		  <span class="for_hover"></span>
-	<? echo wp_get_attachment_image( 255 , 'full', "", array( "class" => "button_green_md_img" )); ?>
-	<span class="button_yellow_md_span">CLAIM</span>
-  </a>
-</div><!-- end bonus_vertical_item -->
-
+	//код здесь
   <?
+  endwhile;?>
+  //пагинация здесь
+<?wp_pagenavi();?>
 
-  $counter++;
-}
-wp_reset_postdata();
-?>
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Дефолтные functions.php//////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 remove_action( 'wp_head', 'feed_links_extra', 3 ); // Display the links to the extra feeds such as category feeds
 remove_action( 'wp_head', 'feed_links', 2 ); // Display the links to the general feeds: Post and Comment Feed
 remove_action( 'wp_head', 'rsd_link' ); // Display the link to the Really Simple Discovery service endpoint, EditURI link
@@ -200,6 +205,49 @@ function disable_yoast_schema_data($data){
 }
 add_filter('wpseo_json_ld_output', 'disable_yoast_schema_data', 10, 1);
 
+function hex2rgba($color, $opacity = false) {
+
+	$default = 'rgb(0,0,0)';
+
+	//Return default if no color provided
+	if(empty($color))
+		return $default;
+
+	//Sanitize $color if "#" is provided
+	if ($color[0] == '#' ) {
+		$color = substr( $color, 1 );
+	}
+
+	//Check if color has 6 or 3 characters and get values
+	if (strlen($color) == 6) {
+		$hex = array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
+	} elseif ( strlen( $color ) == 3 ) {
+		$hex = array( $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] );
+	} else {
+		return $default;
+	}
+
+	//Convert hexadec to rgb
+	$rgb =  array_map('hexdec', $hex);
+
+	//Check if opacity is set(rgba or rgb)
+	if($opacity){
+		if(abs($opacity) > 1)
+			$opacity = 1.0;
+		$output = 'rgba('.implode(",",$rgb).','.$opacity.')';
+	} else {
+		$output = 'rgb('.implode(",",$rgb).')';
+	}
+
+	//Return rgb(a) color string
+	return $output;
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 git init
 git add .
 git commit -m "first commit"
@@ -207,45 +255,30 @@ git remote add origin https://github.com/KirylHlot/wordpress_starter_pack.git
 git push --set-upstream origin master
 
 
-<a href="" data-fancybox="images">
-	
-</a>
 
 
 
-		  echo '<pre>';
-		  print_r($reclam);
-		  echo '</pre>';
-		  $reclam -> query_vars['offset'] = $offset_counter;
-		  echo $reclam -> query_vars['offset'];
 
 
-	    <?
-	    $query = new WP_Query( array( 'category_name' => 'review_top' ) );
-	    $counter = 0;
-	    $page_id = get_the_ID();
-	    while ( $query->have_posts() and $counter<2 ) {
-	    $query->the_post();
-	    $this_id = get_the_ID();
-	    if($page_id != $this_id){
-	    ?>
-        <div class="review_bonus_item" style="background: <? the_field('logo_background_color'); ?>">
-	        <? $casino_logo = get_field('casino_main_logo'); ?>
-          <img src="<?php echo $casino_logo['url']; ?>" alt="<?php echo $casino_logo['alt']; ?>" class="logo">
-          <div class="content">
-	          <? the_field('bonus_text_2'); ?>
-          </div>
-          <a href="<? the_field('external_link'); ?>" target="_blank" class="button">
-            Get your bonus NOW
-          </a>
-        </div>
 
-      <?$counter++;
-        }
-      }
-      wp_reset_postdata();
-      ?>
-	  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	  
 	  
 	  
@@ -253,152 +286,33 @@ git push --set-upstream origin master
 	  
 
 
-
-<?
-$query = new WP_Query( array( 'category_name' => 'review_left_bottom_banners' ) );
-$counter = 0;
-while ( $query->have_posts() and $counter<10 ) {
-$query->the_post();
-?>
-
-<div class="review_bonus_item" style="background: <? the_field('logo_background_color'); ?>">
-      <? $casino_logo = get_field('casino_main_logo'); ?>
-<img src="<?php echo $casino_logo['url']; ?>" alt="<?php echo $casino_logo['alt']; ?>" class="logo">
-	<? the_field('bonus_text_2'); ?>
-</div>
-<a href="<? the_field('external_link'); ?>" target="_blank" class="button">
-  Get your bonus NOW
-</a>
-</div>
-
-<?$counter++;
-}
-wp_reset_postdata();
-?>
       
       
-//пагинация
-//WP-PageNavi
-<?php
-  $current_page = (get_query_var('paged')) ? get_query_var('paged') : 1;
-  $params = array(
-    'posts_per_page' => 1, // количество постов на странице
-    'category_name'       => 'video', // тип постов
-    'paged'           => $current_page // текущая страница
-  );
-  query_posts($params);
-
-  $wp_query->is_archive = true;
-  $wp_query->is_home = false;
-
-  while(have_posts()): the_post();
-  ?>
-	//код здесь
-  <?
-  endwhile;?>
-  //пагинация здесь
-<?wp_pagenavi();?>
-
-// Обрезка контента с html тегами
-$more = ' <a href="'. get_permalink( get_the_ID() ) . '" style="font-weight: bold; color: #ff5253;">Читать полностью</a>';
-echo force_balance_tags( html_entity_decode( wp_trim_words( htmlentities( get_the_content() ), 200, $more ) ) );
-
-
-/////header с yoast
-<!DOCTYPE HTML>
-<html <?php language_attributes(); ?>>
-
-<head>
-  <meta charset="<?php bloginfo( 'charset' ); ?>">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <link rel="icon" href="<?echo get_template_directory_uri();?>/assets/img/favicon/favicon.png">
-  <meta name="theme-color" content="#161930">
-  <meta property="og:image" content="
-    <?
-      $lit_logo = get_field('lit_logo', 49);
-      echo $lit_logo['url'];
-    ?>
-  ">
-	<?php wp_head(); ?>
-  <?$page_id = get_the_ID();
-    $template_name = get_post_meta( $page_id, '_wp_page_template', true );
-  ?>
-</head>
-
-
-	//сортировка по убыванию
-	      <?
-	      $query = new WP_Query(array('category_name' => 'casinos'));
-	      $casino_sort_array = array();
-
-	      while ( $query->have_posts()) {
-		      $query->the_post();
-		      $casino_rate = get_field('casino_rate');
-		      $casino_id = get_the_ID();
-		      $casino_sort_array += array( $casino_id => $casino_rate);
-	      }
-
-	      wp_reset_postdata();
-	      arsort( $casino_sort_array );
-
-        $counter = 0;
-	      foreach ($casino_sort_array as $key => $val) {
-		      if ( $counter < 3 ) {
-			      ?>
-            <a href="<? the_permalink( $key ) ?>" class="footer_casino_item">
-              <div class="logo_wrapper" style="background: <? the_field( 'logo_background', $key ); ?>">
-					      <? $casino_logo = get_field( 'casino_logo', $key ); ?>
-                <img src="<? echo $casino_logo['url']; ?>" alt="<? echo $casino_logo['alt']; ?>">
-              </div>
-              <div class="content_wrapper">
-                <div class="inner_title"><? echo get_the_title($key) ?></div>
-                <div class="rate_wrapper">
-						      <? $casino_rate = get_field( 'casino_rate', $key );
-						      $i              = 0;
-						      while ( $i < 5 ) {
-							      if ( $i < $casino_rate ) {
-								      echo wp_get_attachment_image( 52, 'full', "", array( "class" => "star_colored" ) );
-							      } else {
-								      echo wp_get_attachment_image( 53, 'full', "", array( "class" => "star_grey" ) );
-							      }
-							      $i ++;
-						      }
-						      ?>
-                </div>
-              </div>
-            </a>
-
-			      <?
-			      $counter ++;
-		      }
-	      }
-    ?>
 
 
 
-jsons
 
+
+
+
+
+
+//jsons
+//in functions.php
 function get_avalible_countrys_data( $post_id ) {
-
-	$title = str_replace( ' ', '_', get_the_title($post_id) );
-
 	if ( get_field( 'avalible_country', $post_id ) ) {
 		$avalible_country = get_field( 'avalible_country', $post_id );
 		$license_data['avalible_country'] = $avalible_country;
 	}
-
 	if ( get_field( 'licenses', $post_id ) ) {
 		$avalible_licenses = get_field( 'licenses', $post_id );
 		$license_data['avalible_licenses'] = $avalible_licenses;
 	}
-
+	
 	$countries_settings = [];
 	
 	$countries_settings['avalible_country']= $avalible_country;
 	$countries_settings['avalible_licenses']= $avalible_licenses;
-
-
 	saveProviderInfo( $countries_settings, $title );
 }
 
@@ -414,7 +328,7 @@ function saveProviderInfo( $data, $title ) {
 }
 
 
-
+//in js
 async function get_json(selected_country) {
   let casino_title = document.getElementById('alert_wrapper').dataset.casino_title;
   var myObject;

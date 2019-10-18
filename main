@@ -8,6 +8,12 @@
 <?php echo $casino_main_logo['url']; ?>
 <?php echo $casino_main_logo['alt']; ?>
 
+//git
+git init
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/KirylHlot/wordpress_starter_pack.git
+git push --set-upstream origin master
 
 //фичи WP
 //do shortcode
@@ -155,6 +161,66 @@ $wpdb->insert(
   //пагинация здесь
 <?wp_pagenavi();?>
 
+
+
+//////////////////////////////////////////////////////////////////////////////////////jsons
+//////////////////////////////////////////////////////////////////////////////////////jsons
+//in functions.php
+function get_avalible_countrys_data( $post_id ) {
+	if ( get_field( 'avalible_country', $post_id ) ) {
+		$avalible_country = get_field( 'avalible_country', $post_id );
+		$license_data['avalible_country'] = $avalible_country;
+	}
+	if ( get_field( 'licenses', $post_id ) ) {
+		$avalible_licenses = get_field( 'licenses', $post_id );
+		$license_data['avalible_licenses'] = $avalible_licenses;
+	}
+	
+	$countries_settings = [];
+	
+	$countries_settings['avalible_country']= $avalible_country;
+	$countries_settings['avalible_licenses']= $avalible_licenses;
+	saveProviderInfo( $countries_settings, $title );
+}
+
+
+function saveProviderInfo( $data, $title ) {
+	$dirname  = __DIR__ . '/jsons';
+	$filename = $dirname . '/' . $title . '.json';
+	! is_writable( $dirname )
+	and mkdir( $dirname, 0777 );
+
+	$json_data = json_encode( $data );
+	file_put_contents( $filename, $json_data );
+}
+
+
+//in js
+async function get_json(selected_country) {
+  let casino_title = document.getElementById('alert_wrapper').dataset.casino_title;
+  var myObject;
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/wp-content/themes/casino-login/jsons/'+ casino_title +'.json', true);
+  xhr.send(); // (1)
+
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState != 4) return;
+    if (xhr.status != 200) {
+      console.log(xhr.status + ': ' + xhr.statusText);
+    } else {
+      test = 'fd'
+      myObject = JSON.parse(xhr.responseText);
+      alert(xhr.responseText)
+      compare_avalibale_countries(myObject['avalible_country'], myObject['avalible_licenses'], selected_country)
+    }
+  };
+
+}
+
+//////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -245,107 +311,3 @@ function hex2rgba($color, $opacity = false) {
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-git init
-git add .
-git commit -m "first commit"
-git remote add origin https://github.com/KirylHlot/wordpress_starter_pack.git
-git push --set-upstream origin master
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	  
-	  
-	  
-	  
-	  
-
-
-      
-      
-
-
-
-
-
-
-
-
-
-//jsons
-//in functions.php
-function get_avalible_countrys_data( $post_id ) {
-	if ( get_field( 'avalible_country', $post_id ) ) {
-		$avalible_country = get_field( 'avalible_country', $post_id );
-		$license_data['avalible_country'] = $avalible_country;
-	}
-	if ( get_field( 'licenses', $post_id ) ) {
-		$avalible_licenses = get_field( 'licenses', $post_id );
-		$license_data['avalible_licenses'] = $avalible_licenses;
-	}
-	
-	$countries_settings = [];
-	
-	$countries_settings['avalible_country']= $avalible_country;
-	$countries_settings['avalible_licenses']= $avalible_licenses;
-	saveProviderInfo( $countries_settings, $title );
-}
-
-
-function saveProviderInfo( $data, $title ) {
-	$dirname  = __DIR__ . '/jsons';
-	$filename = $dirname . '/' . $title . '.json';
-	! is_writable( $dirname )
-	and mkdir( $dirname, 0777 );
-
-	$json_data = json_encode( $data );
-	file_put_contents( $filename, $json_data );
-}
-
-
-//in js
-async function get_json(selected_country) {
-  let casino_title = document.getElementById('alert_wrapper').dataset.casino_title;
-  var myObject;
-  var xhr = new XMLHttpRequest();
-  xhr.open('GET', '/wp-content/themes/casino-login/jsons/'+ casino_title +'.json', true);
-  xhr.send(); // (1)
-
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState != 4) return;
-    if (xhr.status != 200) {
-      console.log(xhr.status + ': ' + xhr.statusText);
-    } else {
-      test = 'fd'
-      myObject = JSON.parse(xhr.responseText);
-      alert(xhr.responseText)
-      compare_avalibale_countries(myObject['avalible_country'], myObject['avalible_licenses'], selected_country)
-    }
-  };
-
-}

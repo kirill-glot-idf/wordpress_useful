@@ -190,19 +190,25 @@ $wpdb->insert(
 //////////////////////////////////////////////////////////////////////////////////////jsons
 //in functions.php
 function get_avalible_countrys_data( $post_id ) {
+
+	$title = str_replace( ' ', '_', get_the_title($post_id) );
+
 	if ( get_field( 'avalible_country', $post_id ) ) {
 		$avalible_country = get_field( 'avalible_country', $post_id );
 		$license_data['avalible_country'] = $avalible_country;
 	}
+
 	if ( get_field( 'licenses', $post_id ) ) {
 		$avalible_licenses = get_field( 'licenses', $post_id );
 		$license_data['avalible_licenses'] = $avalible_licenses;
 	}
-	
+
 	$countries_settings = [];
-	
+
 	$countries_settings['avalible_country']= $avalible_country;
 	$countries_settings['avalible_licenses']= $avalible_licenses;
+
+
 	saveProviderInfo( $countries_settings, $title );
 }
 
@@ -210,6 +216,16 @@ function get_avalible_countrys_data( $post_id ) {
 function saveProviderInfo( $data, $title ) {
 	$dirname  = __DIR__ . '/jsons';
 	$filename = $dirname . '/' . $title . '.json';
+
+	if (is_file($filename)) {
+		$diff = time() - filemtime($filename);
+
+		if ($diff < 3600) {
+			return false;
+		}
+	}
+
+
 	! is_writable( $dirname )
 	and mkdir( $dirname, 0777 );
 

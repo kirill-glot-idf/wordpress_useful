@@ -185,6 +185,14 @@ $wpdb->insert(
 <?wp_pagenavi();?>
 
 
+//к сайтхистори классу(прикреплен к репозиторию дополнительно)
+function get_site_history( $item_id ) {
+
+	$key    = strtolower( get_the_title( $item_id ) );
+	$object = SitesHistory::getInstance()->getSiteHistory( $key );
+
+	return $object;
+}
 
 //////////////////////////////////////////////////////////////////////////////////////jsons
 //////////////////////////////////////////////////////////////////////////////////////jsons

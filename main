@@ -710,3 +710,17 @@ function countrySelect() {
 	<select name="country" class="search-select">
 	</select>
 </form>
+
+//убирает jquery по умолчанию
+wp_deregister_script( 'jquery' );
+
+//ошибка в аудите
+//Ensure text remains visible during webfont load
+добавить
+@font-face {
+  font-display: swap;
+}
+
+// автолэйбл дотсам
+let $dots = $('.owl-dot');
+$dots.attr('aria-label', 'owl carousel')

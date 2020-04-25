@@ -67,6 +67,24 @@ if( have_rows('right_carousel') ):
 endif;
 ?>
 
+
+      <?
+      $query = new WP_Query(array(
+        'posts_per_page' => 2,
+        'category_name' => 'akcii',
+        'post_status' => 'publish'
+      ));
+      $counter = 0;
+      while ($query->have_posts() and $counter < 2) {
+        $query->the_post();
+        posrPreviewItem(get_the_ID(), 250);
+        $counter++;
+      };
+      wp_reset_postdata();
+      ?>
+
+
+
 //Гибкое содержание
 <?	
 	if( have_rows('main_page_galary') ):

@@ -9,7 +9,7 @@
   }
   
   //цена
-  $price = $product -> get_price();
+  $price = $product->get_regular_price();
 
   //продукт в наличии
   if ( !$product->is_in_stock() ) {

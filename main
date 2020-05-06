@@ -19,6 +19,56 @@
   //карусель изображений
   $galary_images = $product->get_gallery_image_ids();
   
+//рекомендуемые продукт 
+
+//1й вариант
+// The tax query
+$tax_query[] = array(
+    'taxonomy' => 'product_visibility',
+    'field'    => 'name',
+    'terms'    => 'featured',
+    'operator' => 'IN', // or 'NOT IN' to exclude feature products
+);
+
+// The query
+$query = new WP_Query( array(
+    'post_type'           => 'product',
+    'post_status'         => 'publish',
+    'ignore_sticky_posts' => 1,
+    'posts_per_page'      => $products,
+    'orderby'             => $orderby,
+    'order'               => $order == 'asc' ? 'asc' : 'desc',
+    'tax_query'           => $tax_query // <===
+) );
+
+//2й вариант
+  $args = array(
+    'post_type'           => 'product',
+    'posts_per_page'      => $products,
+    'orderby'             => $orderby,
+    'order'               => $order == 'asc' ? 'asc' : 'desc',
+    'post__in'            => wc_get_featured_product_ids(),
+);
+
+$query = new WP_Query( $args );
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
 //Обычные поля
 <? echo the_permalink( ); ?>
 <? echo wp_get_attachment_image( 77 , 'full', "", array( "class" => "" )); ?>

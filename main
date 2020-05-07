@@ -54,8 +54,11 @@ $query = new WP_Query( $args );
   
   
   
-  
-  
+  //аякс добавление элементов в карусель
+  function remove_product_carousel_HTML(msg){
+  $('.product_carousel').trigger('replace.owl.carousel', msg).trigger('refresh.owl.carousel');
+  return true;
+}
   
   
   

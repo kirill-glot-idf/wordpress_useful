@@ -15,6 +15,9 @@
   if ( !$product->is_in_stock() ) {
     echo '<span class="soldout">Нет в наличии</span>';
   }
+  //атрибут по слагу
+	$product->get_attribute('pa_brand')
+  
   
   //карусель изображений
   $galary_images = $product->get_gallery_image_ids();

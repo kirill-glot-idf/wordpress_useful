@@ -76,7 +76,27 @@ function misha_add_to_cart_fragment( $fragments ) {
 }
   
   
-  
+      <? foreach ($customer_orders->orders as $customer_order) {
+      $order = wc_get_order($customer_order);
+      $order_product_count = $order->get_item_count() - $order->get_item_count_refunded();
+      $order_status = esc_html(wc_get_order_status_name($order->get_status()));
+      $order_number = esc_html(_x('#', 'hash before order number', 'woocommerce') . $order->get_order_number());
+      $order_url = esc_url($order->get_view_order_url());
+      $order_date = esc_attr($order->get_date_created()->date('d.m.Y'));
+      $order_date2 = esc_html(wc_format_datetime($order->get_date_created()));
+      $order_total_cash = $order->get_formatted_order_total();
+
+      $actions = wc_get_account_orders_actions($order);
+      $order_action_url = $actions['cancelled']['url'];
+      $order_action_action = $actions['cancelled']['action'];
+
+      $order_end_string = '';
+      if($order_product_count > 1 and $order_product_count < 5){
+        $order_end_string = 'a';
+      }else if($order_product_count > 5){
+        $order_end_string = 'ов';
+      }
+      ?>
   
   
   

@@ -97,6 +97,13 @@ function misha_add_to_cart_fragment( $fragments ) {
         $order_end_string = 'ов';
       }
       ?>
+
+Количество товаров в заказе
+apply_filters( 'woocommerce_order_item_visible', true, $item );
+$prod_qty = $item->get_quantity();
+  
+  
+  
   
   
   

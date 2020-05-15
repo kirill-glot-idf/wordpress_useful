@@ -103,6 +103,8 @@ apply_filters( 'woocommerce_order_item_visible', true, $item );
 $prod_qty = $item->get_quantity();
   
   
+//вывод по произвольным полям
+https://misha.blog/wordpress/meta_query.html
   
   
   

@@ -105,7 +105,7 @@ $prod_qty = $item->get_quantity();
   
 //вывод по произвольным полям
 https://misha.blog/wordpress/meta_query.html
-  
+https://developer.wordpress.org/reference/classes/wp_query/#order-orderby-parameters
   
   
   

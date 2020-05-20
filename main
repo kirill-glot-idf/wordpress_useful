@@ -106,7 +106,11 @@ $prod_qty = $item->get_quantity();
 //вывод по произвольным полям
 https://misha.blog/wordpress/meta_query.html
 https://developer.wordpress.org/reference/classes/wp_query/#order-orderby-parameters
-  
+
+
+<a href="tel:+<?= preg_replace('~\D+~', '', get_field('need_lift_phone', $id)); ?>" class="h1_title">
+<?= get_field('need_lift_phone', $id); ?>
+</a>
   
   
 //вывод категорий

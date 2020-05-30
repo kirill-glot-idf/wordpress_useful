@@ -107,6 +107,8 @@ $prod_qty = $item->get_quantity();
 https://misha.blog/wordpress/meta_query.html
 https://developer.wordpress.org/reference/classes/wp_query/#order-orderby-parameters
 
+для телефона
+<?= preg_replace('/[^\d+]/', '', get_field('whatsapp_link', 28)); ?>
 
 <a href="tel:+<?= preg_replace('~\D+~', '', get_field('need_lift_phone', $id)); ?>" class="h1_title">
 <?= get_field('need_lift_phone', $id); ?>

@@ -219,19 +219,12 @@ https://wp-kama.ru/function/comment_form
 ?>
 
 //Повторитель
-<?
-if( have_rows('right_carousel') ):
-		while ( have_rows('right_carousel') ) : the_row();?>
-			<div class="review_carousel_item">
-				<? $mini_logo = get_sub_field('mini_logo'); ?>
-				<img src="<?php echo $mini_logo['url']; ?>" alt="<?php echo $mini_logo['alt']; ?>" class="logo_review_carousel">
-				<? $main_image = get_sub_field('main_image'); ?>
-				<img src="<?php echo $main_image['url']; ?>" alt="<?php echo $main_image['alt']; ?>" class="review_carousel_main_img">
-			</div>
-	   <? endwhile;
-	else :
-endif;
-?>
+<?if( have_rows('right_carousel', $page_id) ){ ?>
+  <? while ( have_rows('right_carousel', $page_id) ){
+    the_row(); ?>
+    <?= get_sub_field('name) ?>
+  <? } ?>
+<? } ?>
 
 
       <?

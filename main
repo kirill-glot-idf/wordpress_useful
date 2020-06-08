@@ -219,10 +219,10 @@ https://wp-kama.ru/function/comment_form
 ?>
 
 //Повторитель
-<?if( have_rows('right_carousel', $page_id) ){ ?>
-  <? while ( have_rows('right_carousel', $page_id) ){
+  <? if (have_rows('right_carousel', $page_id)) { ?>
+  <? while (have_rows('right_carousel', $page_id)) {
     the_row(); ?>
-    <?= get_sub_field('name) ?>
+    <?= get_sub_field('name'); ?>
   <? } ?>
 <? } ?>
 

@@ -163,6 +163,350 @@ https://developer.wordpress.org/reference/classes/wp_query/#order-orderby-parame
       </div>
   
   
+<?
+add_action('woocommerce_product_options_pricing', 'art_woo_add_custom_fields');
+
+function art_woo_add_custom_fields()
+{
+  global $product, $post;
+
+  echo '<div class="options_group">';// Группировка полей
+
+
+  woocommerce_wp_text_input(array(
+    'id' => 'pieces_price',
+    'name' => 'pieces_price',
+    'label' => __('Цена поштучно', 'woocommerce'),
+    'placeholder' => 'Только цена через точку прим: 120.3',
+    'desc_tip' => 'false',
+    'description' => __('Введите здесь значение поля', 'woocommerce'),
+  ));
+
+  woocommerce_wp_text_input(array(
+    'id' => 'pieces_price_sale',
+    'name' => 'pieces_price_sale',
+    'label' => __('Цена со скидкой поштучно', 'woocommerce'),
+    'placeholder' => 'Только цена через точку прим: 120.3',
+    'desc_tip' => 'false',
+    'description' => __('Введите здесь значение поля', 'woocommerce'),
+  ));
+
+  woocommerce_wp_text_input(array(
+    'id' => 'm3_price',
+    'name' => 'm3_price',
+    'label' => __('Цена за м3', 'woocommerce'),
+    'placeholder' => 'Только цена через точку прим: 120.3',
+    'desc_tip' => 'false',
+    'description' => __('Введите здесь значение поля', 'woocommerce'),
+  ));
+
+  woocommerce_wp_text_input(array(
+    'id' => 'm3_price_sale',
+    'name' => 'm3_price_sale',
+    'label' => __('Цена за м3 со скидкой', 'woocommerce'),
+    'placeholder' => 'Только цена через точку прим: 120.3',
+    'desc_tip' => 'false',
+    'description' => __('Введите здесь значение поля', 'woocommerce'),
+  ));
+
+  woocommerce_wp_text_input(array(
+    'id' => 'box_price',
+    'name' => 'box_price',
+    'label' => __('Цена за коробку', 'woocommerce'),
+    'placeholder' => 'Только цена через точку прим: 120.3',
+    'desc_tip' => 'false',
+    'description' => __('Введите здесь значение поля', 'woocommerce'),
+  ));
+
+  woocommerce_wp_text_input(array(
+    'id' => 'box_price_sale',
+    'name' => 'box_price_sale',
+    'label' => __('Цена за коробку со скидкой', 'woocommerce'),
+    'placeholder' => 'Только цена через точку прим: 120.3',
+    'desc_tip' => 'false',
+    'description' => __('Введите здесь значение поля', 'woocommerce'),
+  ));
+
+
+
+  woocommerce_wp_text_input(array(
+    'id' => 'set_price',
+    'name' => 'set_price',
+    'label' => __('Цена за комплект', 'woocommerce'),
+    'placeholder' => 'Только цена через точку прим: 120.3',
+    'desc_tip' => 'false',
+    'description' => __('Введите здесь значение поля', 'woocommerce'),
+  ));
+
+  woocommerce_wp_text_input(array(
+    'id' => 'set_price_sale',
+    'name' => 'set_price_sale',
+    'label' => __('Цена за комплект', 'woocommerce'),
+    'placeholder' => 'Только цена через точку прим: 120.3',
+    'desc_tip' => 'false',
+    'description' => __('Введите здесь значение поля', 'woocommerce'),
+  ));
+
+
+
+
+
+
+
+
+
+echo '</div>';
+
+  if (false) {
+    // цифровое поле
+    woocommerce_wp_text_input(array(
+      'id' => '_number_field',
+      'label' => __('Цифровое поле', 'woocommerce'),
+      'placeholder' => 'Ввод чисел',
+      'description' => __('Вводятся только числа', 'woocommerce'),
+      'type' => 'number',
+      'custom_attributes' => array(
+        'step' => 'any',
+        'min' => '0',
+      ),
+    ));
+
+    // Тектовая область
+    woocommerce_wp_textarea_input(array(
+      'id' => '_textarea', // Идентификатор поля
+      'label' => 'Область текста', // Заголовок поля
+      'placeholder' => 'Ввод текста', // Надпись внутри поля
+      'class' => 'textarea-field', // Произвольный класс поля
+      'style' => 'width: 70%; background:red', // Произвольные стили для поля
+      'wrapper_class' => 'wrap-textarea', // Класс обертки поля
+      'desc_tip' => 'true', // Включение подсказки
+      'description' => 'Здесь можно что-нибудть вводить',// Описение поля
+      'name' => 'textarea-field', // Имя поля
+      'rows' => '5', //Высота поля в строках текста.
+      'col' => '10', //Ширина поля в символах.
+    ));
+
+
+    // Выбор значения
+    woocommerce_wp_select(array(
+      'id' => '_select',
+      'label' => 'Выпадающий список',
+      'options' => array(
+        'one' => __('Option 1', 'woocommerce'),
+        'two' => __('Option 2', 'woocommerce'),
+        'three' => __('Option 3', 'woocommerce'),
+      ),
+    ));
+    // Чекбокс
+    woocommerce_wp_checkbox(array(
+      'id' => '_checkbox',
+      'wrapper_class' => 'show_if_simple',
+      'label' => 'Чекбокс',
+      'description' => 'Выбери меня!',
+    ));
+    // Радиокнопки
+    woocommerce_wp_radio(array(
+      'id' => '_radiobutton',
+      'label' => 'Радиокнопки',
+      'class' => 'radio-field', // Произвольный класс поля
+      'style' => '', // Произвольные стили для поля
+      'wrapper_class' => 'wrap-radio', // Класс обертки поля
+      'desc_tip' => 'true', // Включение подсказки
+      'description' => 'Выберите значение',// Описение поля
+      'name' => 'radio-field', // Имя поля
+      'options' => array(
+        'one' => 'Один',
+        'two' => 'Два',
+        'three' => 'Три',
+      ),
+    ));
+    // скрытое поле
+    woocommerce_wp_hidden_input(array(
+      'id' => '_hidden_field',
+      'value' => 'hidden_value',
+    ));
+    // Выбор товаров
+    ?>
+    <p class="form-field product_field_type">
+      <label for="product_field_type">Выбор товаров</label> <select id="product_field_type"
+                                                                    name="product_field_type[]"
+                                                                    class="wc-product-search" multiple="multiple"
+                                                                    style="width: 50%;"
+                                                                    data-placeholder="<?php esc_attr_e('Search for a product…', 'woocommerce'); ?>"
+                                                                    data-action="woocommerce_json_search_products_and_variations"
+                                                                    data-exclude="<?php echo intval($post->ID); ?>">
+        <?php
+        $product_field_type_ids = get_post_meta($post->ID, '_product_field_type_ids', true);
+        $product_ids = !empty($product_field_type_ids) && isset($product_field_type_ids) ? array_map('absint', $product_field_type_ids) : array();
+        if ($product_ids) {
+          foreach ($product_ids as $product_id) {
+            $product = wc_get_product($product_id);
+            $product_name = $product->get_formatted_name();
+            echo '<option value="' . esc_attr($product_id) . '" ' . selected(true, true, false) . '>' .
+              esc_html($product->get_formatted_name()) . '</option>';
+          }
+        }
+        ?>
+      </select><span class="woocommerce-help-tip" data-tip="Тут можно указать какое-нибудь описание"></span>
+    </p>
+    </div>
+
+
+    <div class="options_group">
+      <h2><strong>Произвольная группа полей</strong></h2>
+      <p class="form-field custom_field_type">
+        <label for="custom_field_type"><?php echo 'Размер в упаковке (mm)'; ?></label>
+        <span class="wrap">
+      <input placeholder="Длина" class="input-text wc_input_decimal" size="6" type="text" name="_pack_length"
+             value="<?php echo get_post_meta($post->ID, '_pack_length', true); ?>"
+             style="width: 15.75%;margin-right: 2%;"/>
+      <input placeholder="Ширина" class="input-text wc_input_decimal" size="6" type="text" name="_pack_width"
+             value="<?php echo get_post_meta($post->ID, '_pack_width', true); ?>"
+             style="width: 15.75%;margin-right: 2%;"/>
+      <input placeholder="Высота" class="input-text wc_input_decimal" size="6" type="text" name="_pack_height"
+             value="<?php echo get_post_meta($post->ID, '_pack_height', true); ?>"
+             style="width: 15.75%;margin-right: 0;"/>
+      </span>
+
+
+        <span
+          class="description"><?php echo wc_help_tip('Введите размер товара в упаковке в формате ДхШхВ'); ?></span>
+      </p>
+    </div>
+
+
+  <?
+  }
+}
+
+
+add_action( 'woocommerce_process_product_meta', 'art_woo_custom_fields_save', 10 );
+
+function art_woo_custom_fields_save( $post_id ) {
+  // Сохранение текстового поля
+
+  $woocommerce_text_field = $_POST['pieces_price'];
+  if ( !empty($woocommerce_text_field) ) {
+    update_post_meta( $post_id, 'pieces_price', esc_attr( $woocommerce_text_field ) );
+  }
+
+  $woocommerce_text_field = $_POST['pieces_price_sale'];
+  if ( !empty($woocommerce_text_field) ) {
+    update_post_meta( $post_id, 'pieces_price_sale', esc_attr( $woocommerce_text_field ) );
+  }
+
+  $woocommerce_text_field = $_POST['m3_price'];
+  if ( !empty($woocommerce_text_field) ) {
+    update_post_meta( $post_id, 'm3_price', esc_attr( $woocommerce_text_field ) );
+  }
+
+  $woocommerce_text_field = $_POST['m3_price_sale'];
+  if ( !empty($woocommerce_text_field) ) {
+    update_post_meta( $post_id, 'm3_price_sale', esc_attr( $woocommerce_text_field ) );
+  }
+
+  $woocommerce_text_field = $_POST['box_price'];
+  if ( !empty($woocommerce_text_field) ) {
+    update_post_meta( $post_id, 'box_price', esc_attr( $woocommerce_text_field ) );
+  }
+
+  $woocommerce_text_field = $_POST['box_price_sale'];
+  if ( !empty($woocommerce_text_field) ) {
+    update_post_meta( $post_id, 'box_price_sale', esc_attr( $woocommerce_text_field ) );
+  }
+
+  $woocommerce_text_field = $_POST['set_price'];
+  if ( !empty($woocommerce_text_field) ) {
+    update_post_meta( $post_id, 'set_price', esc_attr( $woocommerce_text_field ) );
+  }
+
+  $woocommerce_text_field = $_POST['set_price_sale'];
+  if ( !empty($woocommerce_text_field) ) {
+    update_post_meta( $post_id, 'set_price_sale', esc_attr( $woocommerce_text_field ) );
+  }
+
+
+  
+  if(false) {
+    // Сохранение цифрового поля
+    $woocommerce_number_field = $_POST['_number_field'];
+    if (!empty($woocommerce_number_field)) {
+      update_post_meta($post_id, '_number_field', esc_attr($woocommerce_number_field));
+    }
+    // Сохранение области тектса
+    $woocommerce_textarea = $_POST['textarea-field'];
+    if (!empty($woocommerce_textarea)) {
+      update_post_meta($post_id, '_textarea', esc_html($woocommerce_textarea));
+    }
+    // Сохранение выпадающего списка
+    $woocommerce_select = $_POST['_select'];
+    if (!empty($woocommerce_select)) {
+      update_post_meta($post_id, '_select', esc_attr($woocommerce_select));
+    }
+    // Сохранение радиокнопок
+    $woocommerce_radio = $_POST['radio-field'];
+    if (!empty($woocommerce_radio)) {
+      update_post_meta($post_id, '_radiobutton', esc_attr($woocommerce_radio));
+    }
+    // Сохранение чекбоксов
+    $woocommerce_checkbox = isset($_POST['_checkbox']) ? 'yes' : 'no';
+    update_post_meta($post_id, '_checkbox', $woocommerce_checkbox);
+    // Сохранение группы произвольных полей
+    $woocommerce_pack_length = $_POST['_pack_length'];
+    if (!empty($woocommerce_pack_length)) {
+      update_post_meta($post_id, '_pack_length', esc_attr($woocommerce_pack_length));
+    }
+    $woocommerce_pack_width = $_POST['_pack_width'];
+    if (!empty($woocommerce_pack_width)) {
+      update_post_meta($post_id, '_pack_width', esc_attr($woocommerce_pack_width));
+    }
+    $woocommerce_pack_height = $_POST['_pack_height'];
+    if (!empty($woocommerce_pack_height)) {
+      update_post_meta($post_id, '_pack_height', esc_attr($woocommerce_pack_height));
+    }
+    // Hidden Field
+    $woocommerce_hidden_field = $_POST['_hidden_field'];
+    if (!empty($woocommerce_hidden_field)) {
+      update_post_meta($post_id, '_hidden_field', esc_attr($woocommerce_hidden_field));
+    }
+    // Сохранение произвольного поля по выбору товаров с поиском
+    if (isset($_POST['product_field_type']) && !empty($_POST['product_field_type'])) {
+      // Проверяем данные, если они существуют и не пустые, то записываем данные в поле
+      update_post_meta($post_id, '_product_field_type_ids', array_map('absint', (array)$_POST['product_field_type']));
+    } else {
+      // Иначе удаляем созданное поле из бд
+      delete_post_meta($post_id, '_product_field_type_ids');
+    }
+  }
+}
+
+
+// Перехватываем
+add_filter('gettext', 'change_backend_product_regular_price', 100, 3 );
+function change_backend_product_regular_price( $translated_text, $text, $domain ) {
+  global $pagenow, $post_type;
+
+  if ( is_admin() && in_array( $pagenow, ['post.php', 'post-new.php'] )
+    && 'product' === $post_type && 'Regular price' === $text  && 'woocommerce' === $domain )
+  {
+    $translated_text =  __( 'Цена за м2', $domain );
+  }
+
+  if ( is_admin() && in_array( $pagenow, ['post.php', 'post-new.php'] )
+    && 'product' === $post_type && 'Sale price' === $text  && 'woocommerce' === $domain )
+  {
+    $translated_text =  __( 'Скидка на м2', $domain );
+  }
+
+
+
+  return $translated_text;
+}
+
+
+  
+  
+  
   
 //Обычные поля
 <? echo the_permalink( ); ?>

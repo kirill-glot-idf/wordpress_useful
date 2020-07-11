@@ -53,8 +53,29 @@ $query = new WP_Query( array(
     'post__in'            => wc_get_featured_product_ids(),
 );
 
+
+//выборка по кастомным категориям 
 $query = new WP_Query( $args );
-  
+        $query = new WP_Query(array(
+        'posts_per_page' => $offset + 1,
+        'post_type' => $post_type,
+        'post_status' => 'publish',
+        'tax_query' => [
+          'relation' => 'AND',
+          [
+            'taxonomy' => 'zapchasti_category',
+            'field' => 'slug',
+            'terms' => array('category_archive'), <--какую категорию не включать
+            'operator' => 'NOT IN',
+          ],
+          [
+            'taxonomy' => 'zapchasti_category',
+            'field' => 'slug',
+            'terms' => array($post_slug),<--какую категорию включать
+            'operator' => 'IN',
+          ],
+        ]
+      ));
   
   
   //аякс добавление элементов в карусель

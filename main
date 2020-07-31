@@ -1297,3 +1297,69 @@ wp_deregister_script( 'jquery' );
 // автолэйбл дотсам
 let $dots = $('.owl-dot');
 $dots.attr('aria-label', 'owl carousel')
+
+//socline
+
+      <li class="skype">
+        <a href="skype:<?= get_field('ic_skype') ?>?chat"><? the_skype_icon(); ?></a>
+      </li>
+      <li class="instagram">
+        <a href="<?= get_field('ic_inst') ?>"><? the_instagram_icon(); ?></a>
+      </li>
+      <li class="telegram">
+        <a href="tg://resolve?domain=<?= get_field('ic_telegram'); ?>"><? the_telegram_icon(); ?></a>
+      </li>
+      <li class="vk">
+        <a href="<?= get_field('ic_vk'); ?>>"><? the_vk_icon(); ?></a>
+      </li>
+      <li class="viber">
+        <a title="Viber"
+           href="viber://chat?number=<?= preg_replace('/[^\d+]/', '', get_field('ic_viber')); ?>"
+           target="_blank" rel="nofollow noopener">
+	        <? the_viber_icon(); ?>
+        </a>
+        <a title="Viber" class="viber_mobi"
+           href="viber://add?number=<?= preg_replace('/[^\d]/', '', get_field('ic_viber')); ?>"
+           target="_blank" rel="nofollow noopener">
+		      <? the_viber_icon(); ?>
+        </a>
+      </li>
+            <a href="<?= get_field('insta_link', 28); ?>" target="_blank" rel="nofollow noopener">
+              <? the_instagram_icon(); ?>
+            </a>
+
+            <a href="<?= get_field('vk_link', 28); ?>" target="_blank" rel="nofollow noopener">
+              <? the_vk_icon(); ?>
+            </a>
+
+            <a title="Viber" class="viber_desc"
+               href="viber://chat?number=<?= preg_replace('/[^\d+]/', '', get_field('viber_link', 28)); ?>"
+               target="_blank" rel="nofollow noopener">
+              <? the_viber_icon(); ?>
+            </a>
+
+            <a title="Viber" class="viber_mobi"
+               href="viber://add?number=<?= preg_replace('/[^\d]/', '', get_field('viber_link', 28)); ?>"
+               target="_blank" rel="nofollow noopener">
+              <? the_viber_icon(); ?>
+            </a>
+
+            <a href="<?= get_field('fb_link', 28); ?>" target="_blank" rel="nofollow noopener">
+              <? the_fb_icon(); ?>
+            </a>
+
+            <a href="<?= get_field('bechance_link', 28); ?>" target="_blank" rel="nofollow noopener">
+              <? the_behince_icon(); ?>
+            </a>
+
+            <a href="<?= get_field('linked_link', 28); ?>" target="_blank" rel="nofollow noopener">
+              <? the_linked_icon(); ?>
+            </a>
+
+            <a href="<?= get_field('ddd_link', 28); ?>" target="_blank" rel="nofollow noopener">
+              <? the_3ddd_icon(); ?>
+            </a>
+
+            <a href="<?= get_field('pinterest_link', 28); ?>" target="_blank" rel="nofollow noopener">
+              <? the_pinterest_icon(); ?>
+            </a>

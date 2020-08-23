@@ -1,0 +1,254 @@
+<?php
+
+function add_custom_post_types()
+{
+  register_post_type('akcii', array(
+    'labels' => array(
+      'name' => 'Акции', // Основное название типа записи
+      'singular_name' => 'Акция', // отдельное название записи типа Book
+      'add_new' => 'Добавить акцию',
+      'add_new_item' => 'Добавить акцию',
+      'edit_item' => 'Редактировать акцию',
+      'new_item' => 'Добавить акцию',
+      'view_item' => 'Посмотреть акцию',
+      'search_items' => 'Найти акцию',
+      'not_found' => 'Акций не найдено',
+      'not_found_in_trash' => 'В корзине акций не найдено',
+      'parent_item_colon' => '',
+      'menu_name' => 'Акции'
+
+    ),
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true,
+    'show_in_menu' => true,
+    'query_var' => true,
+    'rewrite' => true,
+    'capability_type' => 'post',
+    'has_archive' => true,
+    'hierarchical' => false,
+    'menu_position' => null,
+    'menu_icon' => 'dashicons-awards',
+    'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'post-formats'),
+//    'taxonomies' =>       array('category', 'post_tag')
+  ));
+  register_post_type('uslugi', array(
+    'labels' => array(
+      'name' => 'Услуги', // Основное название типа записи
+      'singular_name' => 'Услуги', // отдельное название записи типа Book
+      'add_new' => 'Добавить услугу',
+      'add_new_item' => 'Добавить услугу',
+      'edit_item' => 'Редактировать услугу',
+      'new_item' => 'Добавить услугу',
+      'view_item' => 'Посмотреть услугу',
+      'search_items' => 'Найти услугу',
+      'not_found' => 'Услуг не найдено',
+      'not_found_in_trash' => 'В корзине услуг не найдено',
+      'parent_item_colon' => '',
+      'menu_name' => 'Услуги'
+    ),
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true,
+    'show_in_menu' => true,
+    'query_var' => true,
+    'rewrite' => true,
+    'capability_type' => 'post',
+    'has_archive' => true,
+    'hierarchical' => false,
+    'menu_position' => null,
+    'menu_icon' => 'dashicons-admin-tools',
+    'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'post-formats'),
+//    'taxonomies' =>       array('category', 'post_tag')
+  ));
+  register_post_type('blog', array(
+    'labels' => array(
+      'name' => 'Блог', // Основное название типа записи
+      'singular_name' => 'Блог', // отдельное название записи типа Book
+      'add_new' => 'Добавить статью',
+      'add_new_item' => 'Добавить статью',
+      'edit_item' => 'Редактировать статью',
+      'new_item' => 'Добавить статью',
+      'view_item' => 'Посмотреть статью',
+      'search_items' => 'Найти статью',
+      'not_found' => 'Статей не найдено',
+      'not_found_in_trash' => 'В корзине статей не найдено',
+      'parent_item_colon' => '',
+      'menu_name' => 'Блог'
+    ),
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true,
+    'show_in_menu' => true,
+    'query_var' => true,
+    'rewrite' => true,
+    'capability_type' => 'post',
+    'has_archive' => true,
+    'hierarchical' => false,
+    'menu_position' => null,
+    'menu_icon' => 'dashicons-text-page',
+    'supports' => array('title', 'editor', 'thumbnail', 'custom-fields', 'post-formats'),
+//    'taxonomies' =>       array('category', 'post_tag')
+  ));
+  register_post_type('dveri', array(
+    'labels' => array(
+      'name' => 'Двери', // Основное название типа записи
+      'singular_name' => 'Двери', // отдельное название записи типа Book
+      'add_new' => 'Добавить дверь',
+      'add_new_item' => 'Добавить дверь',
+      'edit_item' => 'Редактировать дверь',
+      'new_item' => 'Добавить дверь',
+      'view_item' => 'Посмотреть дверь',
+      'search_items' => 'Найти дверь',
+      'not_found' => 'Дверей не найдено',
+      'not_found_in_trash' => 'В корзине дверей не найдено',
+      'parent_item_colon' => '',
+      'menu_name' => 'Двери'
+    ),
+    'public' => true,
+    'publicly_queryable' => true,
+    'show_ui' => true,
+    'show_in_menu' => true,
+    'query_var' => true,
+    'capability_type' => 'post',
+    'hierarchical' => true,
+    'menu_position' => null,
+    'menu_icon' => 'dashicons-layout',
+    'supports' => array('title', 'editor', 'author', 'thumbnail', 'excerpt', 'trackbacks', 'custom-fields', 'comments', 'revisions'),
+    '_builtin' => false, // It's a custom post type, not built in!
+    'rewrite' => array('slug' => 'dveri/%dveri_cat%', 'with_front' => true),
+    'has_archive' => 'dveri',
+  ));
+}
+add_action('init', 'add_custom_post_types');
+
+function add_custom_taxonomies()
+{
+
+  $category_labels = array(
+    'name' => 'Категории',
+    'singular_name' => 'Категории',
+    'search_items' => 'Поиск категорий',
+    'all_items' => 'Все категории',
+    'edit_item' => 'Изменить категории',
+    'update_item' => 'Обновить категории',
+    'add_new_item' => 'Добаввить категорию',
+    'new_item_name' => 'Новая категория',
+    'menu_name' => 'Категории',
+  );
+
+  $material_labels = array(
+    'name' => 'Материал',
+    'singular_name' => 'Материалы',
+    'search_items' => 'Поиск материалов',
+    'all_items' => 'Все материалы',
+    'edit_item' => 'Изменить материал',
+    'update_item' => 'Обновить материал',
+    'add_new_item' => 'Добаввить материал',
+    'new_item_name' => 'Новый материал',
+    'menu_name' => 'Материалы',
+  );
+
+  $brand_labels = array(
+    'name' => 'Бренды',
+    'singular_name' => 'Бренды',
+    'search_items' => 'Поиск брендов',
+    'all_items' => 'Все бренды',
+    'edit_item' => 'Изменить бренды',
+    'update_item' => 'Обновить бренды',
+    'add_new_item' => 'Добаввить бренд',
+    'new_item_name' => 'Новый бренд',
+    'menu_name' => 'Бренды',
+  );
+
+  register_taxonomy('dveri_cat', 'dveri', array(
+    'labels' => $category_labels,
+    'hierarchical' => true,
+    'show_ui' => true,
+    'query_var' => true,
+    'sort' => true,
+    'args' => array('orderby' => 'term_order'),
+    'show_admin_column' => true,
+    'rewrite' => array('slug' => 'dveri', 'with_front' => true),
+  ));
+  register_taxonomy('dveri_material', 'dveri', array(
+    'labels' => $material_labels,
+    'hierarchical' => true,
+    'show_ui' => true,
+    'query_var' => true,
+    'sort' => true,
+    'args' => array('orderby' => 'term_order'),
+    'show_admin_column' => true,
+    'rewrite' => array('slug' => 'dveri', 'with_front' => true),
+  ));
+  register_taxonomy('dveri_brand', 'dveri', array(
+    'labels' => $brand_labels,
+    'hierarchical' => true,
+    'show_ui' => true,
+    'query_var' => true,
+    'sort' => true,
+    'args' => array('orderby' => 'term_order'),
+    'show_admin_column' => true,
+    'rewrite' => array('slug' => 'dveri', 'with_front' => true),
+  ));
+}
+add_action('init', 'add_custom_taxonomies');
+
+function projectcategory_permalink_structure($post_link, $post, $leavename, $sample)
+{
+//    array (size=2)
+//  0 =>
+//    object(WP_Term)[10544]
+//      public 'term_id' => int 13
+//      public 'name' => string 'доугхтер' (length=16)
+//      public 'slug' => string 'doughter' (length=8)
+//      public 'term_group' => int 0
+//      public 'term_taxonomy_id' => int 13
+//      public 'taxonomy' => string 'dveri_cat' (length=9)
+//      public 'description' => string '' (length=0)
+//      public 'parent' => int 12
+//      public 'count' => int 1
+//      public 'filter' => string 'raw' (length=3)
+
+  if (false !== strpos($post_link, '%dveri_cat%')) {
+    $projectscategory_type_term = get_the_terms($post->ID, 'dveri_cat');
+    if (!empty($projectscategory_type_term)) {
+
+      $term_count = count($projectscategory_type_term);
+      $counter = 0;
+      $cat_slug = '';
+      $parent_id = 0;
+
+      while ($counter < $term_count) {
+
+        foreach ($projectscategory_type_term as $k => $v) {
+          if ($v->parent === $parent_id) {
+
+
+            $cat_slug .= $v->slug . '/';
+
+            $parent_id = $v->term_id;
+            break;
+          }
+        }
+
+        $counter++;
+      }
+
+      $cat_slug = mb_substr($cat_slug, 0, -1);
+
+      $post_link = str_replace('%dveri_cat%', $cat_slug, $post_link);
+
+
+    } else {
+      $post_link = str_replace('%dveri_cat%', 'uncategorize', $post_link);
+    }
+
+  }
+
+  return $post_link;
+}
+
+add_filter('post_type_link', 'projectcategory_permalink_structure', 10, 4);
+
+

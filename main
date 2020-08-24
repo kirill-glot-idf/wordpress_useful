@@ -1,5 +1,9 @@
 //woocommerce
 
+
+  $term_id  = wp_get_post_terms($id, 'instrument', array("fields" => "ids"))[0];
+
+
   //покажет все поля по айди поста
   var_dump(get_post_meta($product_id));
 

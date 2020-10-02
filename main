@@ -118,6 +118,21 @@ reset_rows();
 ?>
 
 
+
+          <?php if (have_rows('right_carousel', $page_id)) { ?>
+            <?php while (have_rows('right_carousel', $page_id)) {
+              the_row(); ?>
+              <?php echo get_sub_field('name'); ?>
+
+              <a href="<?php ?>" data-fancybox="galary" style="background-image: url(<?php ?>)"></a>
+
+            <?php } ?>
+            <?php
+            reset_rows();
+          }
+          ?>
+
+
       <?
       $query = new WP_Query(array(
         'posts_per_page' => 2,

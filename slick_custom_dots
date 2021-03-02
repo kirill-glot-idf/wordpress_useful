@@ -1,0 +1,231 @@
+import React from "react";
+import styled from "styled-components";
+import {useSelector} from "react-redux";
+import Slider from "react-slick";
+
+import {useNewsList} from "../../../hooks/use-news-list";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+import {BREAKPOINTS} from "../../../settings";
+
+export const PromoSlider = ({bg_img_url}) => {
+
+  const dataBase = useSelector(state => state.base);
+  const langCurrent = dataBase.lang.current;
+  const news_list = useNewsList(langCurrent);
+  const sliced_news = news_list.slice(0, 4);
+
+  const customeSlider = React.createRef();
+  const settings = {
+    arrows: false,
+    focusOnSelect: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    infinite: true,
+    slidesToScroll: 1,
+    slidesToShow: 1,
+    centerMode: false,
+    dots: true,
+    appendDots: dots => <ul>{dots}</ul>,
+    customPaging: index => (
+      <button className="custom_button">
+
+      </button>
+    )
+  };
+
+
+  return (
+
+    <>
+      {sliced_news &&
+
+      <StyledPromoSlider style={{
+        backgroundImage: `url(${bg_img_url})`,
+      }}>
+
+        <Slider {...settings} ref={customeSlider}>
+          {sliced_news.map((news, index) => (
+            <div key={index} className="slide_wrapper" title={news.title}>
+
+              <div className="date"
+                   dangerouslySetInnerHTML={{
+                     __html: news.date
+                   }}
+              />
+
+              <div className="title"
+                   dangerouslySetInnerHTML={{
+                     __html: news.title
+                   }}
+              />
+
+            </div>
+          ))
+          }
+
+
+        </Slider>
+
+      </StyledPromoSlider>
+      }
+    </>
+  );
+};
+
+const StyledPromoSlider = styled.div`
+  width: calc(100% + 40px);
+  position: relative;
+  left: -20px;
+  height: auto;
+  overflow: hidden;
+  background-position: -520px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  @media(min-width: ${BREAKPOINTS.mobile_xs + "px"}){
+    background-position: -440px;
+  }
+  @media(min-width: ${BREAKPOINTS.mobile + "px"}){
+    background-position: -150px;
+  }
+  @media(min-width: ${BREAKPOINTS.tablet + "px"}){
+    background-position: -660px;
+    border-radius: 7px;
+    width: 100%;
+    left: 0;
+  }
+  @media(min-width: 850px){
+    background-position: -400px;
+  }
+  @media(min-width: ${BREAKPOINTS.desktop + "px"}){
+    background-position: -40px;
+  }  
+  @media(min-width: ${BREAKPOINTS.desktop_lg + "px"}){
+    background-position: right;
+  }
+    
+  .slick-slider{
+    width: 100%;
+    height: auto;
+    color: #fff;
+    padding: 30px 20px;
+    position: relative;
+    @media(min-width: ${BREAKPOINTS.tablet + "px"}){
+      padding: 50px;
+    }
+    .slide_wrapper{
+      width: 100%;
+      height: auto;
+      padding-bottom: 130px;
+      @media(min-width: ${BREAKPOINTS.tablet + "px"}){
+        padding-bottom: 100px;
+      }
+      .date{
+        font-size: 15px;
+        line-height: 20px;
+        color: #FFFFFF;
+        margin-bottom: 5px;
+        @media(min-width: ${BREAKPOINTS.tablet + "px"}){
+          font-size: 14px;
+          line-height: 20px;
+        }
+      }
+      .title{
+        width: 100%;
+        height: auto;
+        font-weight: bold;
+        font-size: 25px;
+        line-height: 30px;
+        @media(min-width: ${BREAKPOINTS.tablet + "px"}){
+          width: 50%;
+          font-size: 30px;
+          line-height: 45px;
+        }
+      }
+    }
+    
+    ul{
+      position: relative;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 0;
+      padding: 0;
+      overflow-x: auto;
+      li {
+        display: block;
+        width: 20%;
+        min-width: 150px;
+        height: auto;
+        &.slick-active{
+          .loading{
+            .filling{
+              animation: filling_loading 5s 1 ease-in-out;
+              animation-fill-mode: forwards;
+            }
+          }
+        
+        
+          .title{
+            opacity: 1;
+          }
+        }
+        button{
+          width: 100%;
+          height: 100%;
+          padding: 0;
+          margin: 0;
+          background-color: transparent;
+          border: none;
+          outline: none;
+          color: #fff;
+          text-align: left;
+          .loading{
+            width: 100%;
+            height: 1px;
+            background-color: rgba(255,255,255, .5);
+            margin-bottom: 15px;
+            .filling{
+              height: 100%;
+              background-color: #fff;
+              width: 0;
+            }
+          }
+          .title{
+            width: 100%;
+            height: auto;
+            font-size: 15px;
+            line-height: 20px;
+            color: #FFFFFF;
+            opacity: 0.5;
+            @media(min-width: ${BREAKPOINTS.tablet + "px"}){
+              font-size: 14px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+
+
+
+  @media(min-width: ${BREAKPOINTS.tablet + "px"}){
+
+  }
+  
+  @keyframes filling_loading{
+    0%{
+      width: 0;
+    }
+    100%{
+      width: 100%;
+    }
+  }
+
+`;

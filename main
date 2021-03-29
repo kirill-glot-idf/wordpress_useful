@@ -112,6 +112,12 @@ echo force_balance_tags( html_entity_decode( wp_trim_words( htmlentities( get_th
 $title = str_replace( ' ', '_', get_the_title($post_id) );
 
 
+//header('Content-Type: application/json');
+//header('Access-Control-Allow-Origin: *');
+//header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+//header('Access-Control-Allow-Headers: X-Requested-With, Content-Type, X-Token-Auth, Authorization');
+//header('Access-Control-Allow-Credentials: true');
+
 
 
 //выборка по кастомным категориям 
